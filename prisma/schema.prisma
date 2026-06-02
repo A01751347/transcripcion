@@ -1,0 +1,144 @@
+// Prisma schema for the transcription app
+// docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TranscriptionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum ChunkStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  SUSPICIOUS
+}
+
+model Folder {
+  id             String          @id @default(cuid())
+  name           String
+  color          String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  transcriptions Transcription[]
+
+  @@index([createdAt])
+}
+
+model Transcription {
+  id          String              @id @default(cuid())
+  title       String
+  fileName    String
+  filePath    String
+  fileSize    Int
+  mimeType    String
+  duration    Float?
+  language    String?
+  status      TranscriptionStatus @default(PENDING)
+  rawText     String?             @db.Text
+  segments    Json?
+  errorMsg    String?             @db.Text
+  folderId    String?
+  folder      Folder?             @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  summary     Summary?
+  keyPoints   KeyPoint[]
+  chatMessages ChatMessage[]
+  notes       Note[]
+  chunks      TranscriptionChunk[]
+  tags        Tag[]               @relation("TagToTranscription")
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@index([folderId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model TranscriptionChunk {
+  id              String        @id @default(cuid())
+  transcriptionId String
+  transcription   Transcription @relation(fields: [transcriptionId], references: [id], onDelete: Cascade)
+  index           Int
+  filePath        String
+  offsetSeconds   Float
+  durationSeconds Float
+  status          ChunkStatus   @default(PENDING)
+  rawText         String?       @db.Text
+  segments        Json?
+  errorMsg        String?       @db.Text
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@unique([transcriptionId, index])
+  @@index([transcriptionId])
+}
+
+model Summary {
+  id              String        @id @default(cuid())
+  transcriptionId String        @unique
+  transcription   Transcription @relation(fields: [transcriptionId], references: [id], onDelete: Cascade)
+  shortSummary    String        @db.Text
+  longSummary     String        @db.Text
+  topics          String[]
+  sentiment       String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model KeyPoint {
+  id              String        @id @default(cuid())
+  transcriptionId String
+  transcription   Transcription @relation(fields: [transcriptionId], references: [id], onDelete: Cascade)
+  content         String        @db.Text
+  category        String?
+  importance      Int           @default(1)
+  timestamp       Float?
+  done            Boolean       @default(false)
+  order           Int           @default(0)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([transcriptionId])
+}
+
+model ChatMessage {
+  id              String        @id @default(cuid())
+  transcriptionId String
+  transcription   Transcription @relation(fields: [transcriptionId], references: [id], onDelete: Cascade)
+  role            String
+  content         String        @db.Text
+  createdAt       DateTime      @default(now())
+
+  @@index([transcriptionId, createdAt])
+}
+
+model Note {
+  id              String        @id @default(cuid())
+  transcriptionId String
+  transcription   Transcription @relation(fields: [transcriptionId], references: [id], onDelete: Cascade)
+  content         String        @db.Text
+  timestamp       Float?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([transcriptionId])
+}
+
+model Tag {
+  id             String          @id @default(cuid())
+  name           String          @unique
+  color          String?
+  transcriptions Transcription[] @relation("TagToTranscription")
+  createdAt      DateTime        @default(now())
+}

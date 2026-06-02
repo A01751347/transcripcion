@@ -134,3 +134,16 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Uploads (audio files)
+uploads/
+*.mp3
+*.m4a
+*.wav
+*.ogg
+*.webm
+*.flac
+
+# Prisma generated client
+/node_modules/.prisma
+

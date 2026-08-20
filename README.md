@@ -1,3 +1,5 @@
+npm
+
 # Transcripto
 
 Aplicación full-stack para transcribir, resumir, analizar y conversar con tus audios usando **OpenAI Whisper** (transcripción) y **GPT-4** (análisis).
@@ -20,14 +22,14 @@ Pensada para audios en **español** que pueden incluir palabras o frases en ingl
 
 ## Stack
 
-| Capa | Tecnología |
-|------|------------|
-| Framework | Next.js 15 (App Router) + TypeScript |
-| UI | Tailwind CSS + shadcn/ui + lucide icons |
-| Estado / data | TanStack Query + Zustand |
-| DB | PostgreSQL + Prisma |
-| IA | OpenAI SDK — Whisper + GPT-4 |
-| Auth | (no incluido — añade NextAuth si lo necesitas) |
+| Capa          | Tecnología                                      |
+| ------------- | ------------------------------------------------ |
+| Framework     | Next.js 15 (App Router) + TypeScript             |
+| UI            | Tailwind CSS + shadcn/ui + lucide icons          |
+| Estado / data | TanStack Query + Zustand                         |
+| DB            | PostgreSQL + Prisma                              |
+| IA            | OpenAI SDK — Whisper + GPT-4                    |
+| Auth          | (no incluido — añade NextAuth si lo necesitas) |
 
 ## Setup
 
@@ -186,11 +188,11 @@ Folder        (carpetas para organizar)
 
 ## Costos OpenAI (aprox. en USD)
 
-| Modelo | Coste |
-|--------|-------|
-| Whisper-1 | $0.006 / minuto de audio |
+| Modelo                                    | Coste                                        |
+| ----------------------------------------- | -------------------------------------------- |
+| Whisper-1                                 | $0.006 / minuto de audio                     |
 | GPT-4o-mini (resumen, puntos clave, chat) | $0.15 / 1M tokens input · $0.60 / 1M output |
-| GPT-4o (alta calidad) | $2.50 / 1M input · $10 / 1M output |
+| GPT-4o (alta calidad)                     | $2.50 / 1M input · $10 / 1M output          |
 
 Una transcripción típica de 10 minutos cuesta ~$0.06 + ~$0.005 en análisis si usas `gpt-4o-mini`.
 
@@ -204,11 +206,11 @@ El límite de Whisper son 25 MB por archivo. Tu app maneja audios mucho más gra
 
 `ffmpeg` y `ffprobe` vienen incluidos como dependencias npm (`ffmpeg-static`, `ffprobe-static`) — no tienes que instalar nada extra en tu sistema.
 
-| Audio original | Comprimido | Chunks | Tiempo aprox. |
-|----------------|------------|--------|---------------|
-| 200 MB / 1h wav | ~14 MB / 32kbps mp3 | 1 | ~30s |
-| 200 MB / 3h wav | ~43 MB | 5 chunks × 10 min | ~1 min (paralelo) |
-| 500 MB / 5h | ~72 MB | 8 chunks × 10 min | ~1.5 min |
+| Audio original  | Comprimido          | Chunks             | Tiempo aprox.     |
+| --------------- | ------------------- | ------------------ | ----------------- |
+| 200 MB / 1h wav | ~14 MB / 32kbps mp3 | 1                  | ~30s              |
+| 200 MB / 3h wav | ~43 MB              | 5 chunks × 10 min | ~1 min (paralelo) |
+| 500 MB / 5h     | ~72 MB              | 8 chunks × 10 min | ~1.5 min          |
 
 ## Notas
 

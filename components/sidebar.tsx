@@ -6,6 +6,7 @@ import {
   AudioLines,
   Folder,
   Home,
+  LayoutGrid,
   Plus,
   Sparkles,
   Upload,
@@ -77,6 +78,7 @@ export function Sidebar() {
     { href: "/", label: "Inicio", icon: Home },
     { href: "/transcriptions", label: "Transcripciones", icon: AudioLines },
     { href: "/upload", label: "Subir audio", icon: Upload },
+    { href: "/slides", label: "Slides a imagen", icon: LayoutGrid },
   ];
 
   return (

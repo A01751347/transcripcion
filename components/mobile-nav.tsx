@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AudioLines, Home, Sparkles, Upload } from "lucide-react";
+import { AudioLines, Home, LayoutGrid, Sparkles, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function MobileNav() {
@@ -10,6 +10,7 @@ export function MobileNav() {
     { href: "/", label: "Inicio", icon: Home },
     { href: "/transcriptions", label: "Audios", icon: AudioLines },
     { href: "/upload", label: "Subir", icon: Upload },
+    { href: "/slides", label: "Slides", icon: LayoutGrid },
   ];
 
   return (
